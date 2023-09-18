@@ -12,7 +12,6 @@ export default function App() {
 			<Text style={{ color: "blue" }}>Some more text</Text>
 			<GiveData />
 			<Button title="Click Me!" />
-
 			<StatusBar style="auto" />
 		</View>
 	);
