@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View, Button } from "react-native";
+import { StatusBar } from "expo-status-bar";
 import { gradebook } from "./data.js";
 
 export default function App() {
@@ -24,11 +25,14 @@ export default function App() {
 
 			<View style={{ paddingTop: 20 }}>
 				{gradebook.map((student) => (
-					<Text style={{ paddingTop: 10, color: "blue" }}>
-						Name: {student.name} | Grade: {student.grade}
-					</Text>
+					<View>
+						<Text style={{ paddingTop: 10, color: "blue" }}>
+							Name: {student.name} | Grade: {student.grade}%
+						</Text>
+					</View>
 				))}
 			</View>
+			<StatusBar style="auto" />
 		</View>
 	);
 }
