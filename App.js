@@ -1,24 +1,36 @@
-import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Button } from "react-native";
-
-//
+import { gradebook } from "./data.js";
 
 export default function App() {
-	let myVar = 10;
+	let numbers = [];
+	for (i = 1; i < 11; i++) {
+		numbers.push(i);
+	}
 
 	return (
 		<View style={styles.container}>
-			<Text>My amazing app! {myVar}</Text>
-			<Text style={{ color: "blue" }}>Some more text</Text>
-			<GiveData />
-			<Button title="Click Me!" />
-			<StatusBar style="auto" />
+			{numbers.map((num) => (
+				// Experimented with component capitalization
+				// <text>{num}</text>
+				<View>
+					<Text>{num}</Text>
+				</View>
+			))}
+			{/* Experimented with self-closing tags and attribute names
+				<Button title="Experiment!" >
+				<Button Title="Experiment!" />*/}
+
+			<Button title="Experiment!" />
+
+			<View style={{ paddingTop: 20 }}>
+				{gradebook.map((student) => (
+					<Text style={{ paddingTop: 10, color: "blue" }}>
+						Name: {student.name} | Grade: {student.grade}
+					</Text>
+				))}
+			</View>
 		</View>
 	);
-}
-
-function GiveData() {
-	return <Text>Here's some data</Text>;
 }
 
 const styles = StyleSheet.create({
