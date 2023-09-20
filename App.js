@@ -25,14 +25,20 @@ export default function App() {
 
 			<View style={{ paddingTop: 20 }}>
 				{gradebook.map((student) => (
-					<View>
-						<Text style={{ paddingTop: 10, color: "blue" }}>
-							Name: {student.name} | Grade: {student.grade}%
-						</Text>
-					</View>
+					<Student name={student.name} grade={student.grade}></Student>
 				))}
 			</View>
 			<StatusBar style="auto" />
+		</View>
+	);
+}
+
+function Student({ name, grade }) {
+	return (
+		<View>
+			<Text style={styles.studentText}>
+				Name: {name} | Grade: {grade}%
+			</Text>
 		</View>
 	);
 }
@@ -43,5 +49,11 @@ const styles = StyleSheet.create({
 		backgroundColor: "#fff",
 		alignItems: "center",
 		justifyContent: "center",
+	},
+
+	studentText: {
+		fontSize: 20,
+		paddingTop: 10,
+		color: "green",
 	},
 });
