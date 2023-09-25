@@ -1,6 +1,6 @@
 import { Image } from "react-native";
 
-export function StudentCard(source) {
+export function StudentCard() {
 	return (
 		<Image
 			style={{ width: 100, height: 100 }}
