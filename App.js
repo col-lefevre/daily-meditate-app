@@ -1,44 +1,13 @@
 import { StyleSheet, Text, View, Button } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import { gradebook } from "./data.js";
+import { GradebookEntry } from "./GradebookEntry";
 
 export default function App() {
-	let numbers = [];
-	for (i = 1; i < 11; i++) {
-		numbers.push(i);
-	}
-
 	return (
 		<View style={styles.container}>
-			{numbers.map((num) => (
-				// Experimented with component capitalization
-				// <text>{num}</text>
-				<View>
-					<Text>{num}</Text>
-				</View>
-			))}
-			{/* Experimented with self-closing tags and attribute names
-				<Button title="Experiment!" >
-				<Button Title="Experiment!" />*/}
-
-			<Button title="Experiment!" />
-
-			<View style={{ paddingTop: 20 }}>
-				{gradebook.map((student) => (
-					<Student name={student.name} grade={student.grade}></Student>
-				))}
-			</View>
+			<GradebookEntry name="Derek" absences="2" grade="90%" />
+			<GradebookEntry name="Sitha" absences="1" grade="95%" />
 			<StatusBar style="auto" />
-		</View>
-	);
-}
-
-function Student({ name, grade }) {
-	return (
-		<View>
-			<Text style={styles.studentText}>
-				Name: {name} | Grade: {grade}%
-			</Text>
 		</View>
 	);
 }
@@ -49,11 +18,5 @@ const styles = StyleSheet.create({
 		backgroundColor: "#fff",
 		alignItems: "center",
 		justifyContent: "center",
-	},
-
-	studentText: {
-		fontSize: 20,
-		paddingTop: 10,
-		color: "green",
 	},
 });
