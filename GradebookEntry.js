@@ -1,4 +1,4 @@
-import { View, Text, Alert, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import { StudentGradeInfo } from "./StudentGradeInfo";
 import { StudentCard } from "./StudentCard";
