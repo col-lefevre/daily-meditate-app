@@ -1,4 +1,4 @@
-import { StyleSheet, View, FlatList } from "react-native";
+import { StyleSheet, View, FlatList, Text } from "react-native";
 import { useState } from "react";
 import { GradebookEntry } from "./GradebookEntry";
 import { BonusPointMsg } from "./BonusPointMsg";
@@ -22,6 +22,9 @@ export default function App() {
 
 	return (
 		<View style={styles.container}>
+			<View style={styles.header}>
+				<Text style={styles.headerText}>Z101 Gradebook</Text>
+			</View>
 			<BonusPointMsg totalBonusPoints={totalBonusPoints} />
 			<FlatList
 				data={studentData}
@@ -41,9 +44,18 @@ export default function App() {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		backgroundColor: "#fff",
-		alignItems: "center",
+		width: "100%",
+		display: "flex",
+		flexDirection: "column",
+	},
+	header: {
+		height: "20%",
+		backgroundColor: "grey",
 		justifyContent: "center",
+		alignItems: "center",
+	},
+	headerText: {
+		fontSize: 24,
+		color: "black",
 	},
 });
