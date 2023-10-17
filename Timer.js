@@ -1,20 +1,21 @@
 import { StyleSheet, View, Text } from "react-native";
 
-export function Prompt({ promptText }) {
+export function Timer({ timerText }) {
 	return (
 		<View style={styles.container}>
-			<Text style={styles.text}>{promptText}</Text>
+			<Text style={styles.text}>{timerText}</Text>
 		</View>
 	);
 }
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: "darkseagreen",
-		padding: 10,
-		margin: 20,
+		backgroundColor: "skyblue",
+		padding: 30,
+		margin: 10,
+		borderRadius: 100,
 	},
 	text: {
-		fontSize: 15,
+		fontSize: 50,
 	},
 });
