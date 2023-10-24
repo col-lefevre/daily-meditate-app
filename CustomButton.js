@@ -5,7 +5,7 @@ export function CustomButton({ buttonText, buttonFuncs, disabledStatus }) {
 		? styles.disabledButton
 		: styles.enabledButton;
 
-	let customButton = StyleSheet.compose(styles.buttonDim, buttonColor);
+	let customButton = StyleSheet.compose(styles.buttonDimensions, buttonColor);
 
 	return (
 		<TouchableOpacity
@@ -19,7 +19,7 @@ export function CustomButton({ buttonText, buttonFuncs, disabledStatus }) {
 }
 
 const styles = StyleSheet.create({
-	buttonDim: {
+	buttonDimensions: {
 		padding: 10,
 		marginTop: 5,
 		borderRadius: 5,

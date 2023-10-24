@@ -1,55 +1,80 @@
 import { StyleSheet, View } from "react-native";
 import { useEffect, useState } from "react";
 
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+
 import { meditationPrompts } from "./InternalData";
 import { Prompt } from "./Prompt";
 import { CustomButton } from "./CustomButton";
 import { Timer } from "./Timer";
 
-export default function App() {
-	let [progress, setProgress] = useState(0);
-	let [timer, setTimer] = useState(0);
+const Stack = createStackNavigator();
 
-	const advanceProgress = () => {
-		// Advances progress on the app
-		// 0 - Home screen
-		// 1 - Meditation prompt
-		// 2 - Timer
-		if (progress < 2) {
-			setProgress(progress + 1);
-		} else {
-			setProgress(0);
-		}
+function MyStack() {
+	return (
+		<Stack.Navigator initialRouteName="Home">
+			<Stack.Screen
+				name="Home"
+				component={HomeScreen}
+				options={{ headerShown: false }}
+			/>
+			<Stack.Screen
+				name="Prompt"
+				component={PromptScreen}
+				options={{ headerShown: false }}
+			/>
+			<Stack.Screen
+				name="Timer"
+				component={TimerScreen}
+				options={{ headerShown: false }}
+			/>
+		</Stack.Navigator>
+	);
+}
+
+function HomeScreen({ navigation }) {
+	// Nav wrapper
+	const navToPrompt = () => {
+		navigation.navigate("Prompt");
 	};
 
-	// Button text based on progress
-	function getButtonText(progress) {
-		textList = ["Meditate", "Begin", "Finish"];
-		return textList[progress];
-	}
+	return (
+		<View style={styles.container}>
+			<CustomButton
+				buttonText={"Meditate"}
+				buttonFuncs={navToPrompt}
+				disabledStatus={false}
+			/>
+		</View>
+	);
+}
 
-	// Get random prompt
-	function getPrompt() {
-		if (progress == 1) {
-			return meditationPrompts[
-				Math.floor(Math.random() * meditationPrompts.length)
-			];
-		} else {
-			return null;
-		}
-	}
+function PromptScreen({ navigation }) {
+	// Nav wrapper
+	const navToTimer = () => {
+		navigation.navigate("Timer");
+	};
 
-	// Start timer
-	function startTimer() {
-		setTimer(30); // Manual value
-	}
+	let randomPrompt =
+		meditationPrompts[Math.floor(Math.random() * meditationPrompts.length)];
 
-	// Format timer into minutes:seconds
-	function getFormattedTime() {
-		return `${Math.floor(timer / 60)}:${timer % 60}`;
-	}
+	return (
+		<View style={styles.container}>
+			<Prompt promptText={randomPrompt} />
+			<CustomButton
+				buttonText={"Begin"}
+				buttonFuncs={navToTimer}
+				disabledStatus={false}
+			/>
+		</View>
+	);
+}
 
-	// Update timer when it is "started", i.e., above 0
+function TimerScreen({ navigation }) {
+	// Timer
+	let [timer, setTimer] = useState(30);
+
 	useEffect(() => {
 		if (timer > 0) {
 			const interval = setInterval(() => {
@@ -62,26 +87,42 @@ export default function App() {
 		}
 	}, [timer]);
 
-	// Manage button functions (so it can trigger multiple on one press)
-	function buttonFuncs() {
-		if (progress == 1) {
-			advanceProgress();
-			startTimer();
-		} else {
-			advanceProgress();
-		}
+	// function getFormattedTime() {
+	// 	return `${Math.floor(timer / 60)}:${timer % 60}`;
+	// }
+
+	function getFormattedTime() {
+		let mins = Math.floor(timer / 60);
+		let secs = timer % 60;
+
+		let formatMins = String(mins).padStart(2, "0");
+		let formatSecs = String(secs).padStart(2, "0");
+
+		return `${formatMins}:${formatSecs}`;
 	}
+
+	// Nav wrapper
+	const navToHome = () => {
+		navigation.navigate("Home");
+	};
 
 	return (
 		<View style={styles.container}>
-			{progress == 1 ? <Prompt promptText={getPrompt()} /> : null}
-			{progress == 2 ? <Timer timerText={getFormattedTime()} /> : null}
+			<Timer timerText={getFormattedTime()} />
 			<CustomButton
-				buttonText={getButtonText(progress)}
-				buttonFuncs={buttonFuncs}
-				disabledStatus={timer > 0 ? true : false}
-			></CustomButton>
+				buttonText={"Finish"}
+				buttonFuncs={navToHome}
+				disabledStatus={timer > 0}
+			/>
 		</View>
+	);
+}
+
+export default function App() {
+	return (
+		<NavigationContainer>
+			<MyStack />
+		</NavigationContainer>
 	);
 }
 
