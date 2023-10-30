@@ -8,17 +8,18 @@ import { meditationPrompts } from "./InternalData";
 import { Prompt } from "./Prompt";
 import { CustomButton } from "./CustomButton";
 import { Timer } from "./Timer";
-import { Notes } from "./Notes";
+import { InputNotes } from "./InputNotes";
+import { ViewNotes } from "./ViewNotes";
 
 const Stack = createStackNavigator();
 
 function MyStack() {
 	return (
-		<Stack.Navigator initialRouteName="Notes">
+		<Stack.Navigator initialRouteName="ViewNotes">
 			<Stack.Screen
 				name="Home"
 				component={HomeScreen}
-				options={{ headerShown: true }}
+				options={{ headerShown: false }}
 			/>
 			<Stack.Screen
 				name="Prompt"
@@ -31,8 +32,13 @@ function MyStack() {
 				options={{ headerShown: false }}
 			/>
 			<Stack.Screen
-				name="Notes"
-				component={NotesScreen}
+				name="InputNotes"
+				component={InputNotesScreen}
+				options={{ headerShown: false }}
+			/>
+			<Stack.Screen
+				name="ViewNotes"
+				component={ViewNotesScreen}
 				options={{ headerShown: false }}
 			/>
 		</Stack.Navigator>
@@ -104,8 +110,8 @@ function TimerScreen({ navigation }) {
 	}
 
 	// Nav wrapper
-	const navToNotes = () => {
-		navigation.navigate("Notes");
+	const navToInputNotes = () => {
+		navigation.navigate("InputNotes");
 	};
 
 	return (
@@ -113,21 +119,38 @@ function TimerScreen({ navigation }) {
 			<Timer timerText={getFormattedTime()} />
 			<CustomButton
 				buttonText={"Take Notes"}
-				buttonFuncs={navToNotes}
+				buttonFuncs={navToInputNotes}
 				disabledStatus={timer > 0}
 			/>
 		</View>
 	);
 }
 
-function NotesScreen({ navigation }) {
+function InputNotesScreen({ navigation }) {
+	const navToViewNotes = () => {
+		navigation.navigate("ViewNotes");
+	};
+
+	return (
+		<View style={styles.container}>
+			<InputNotes navFunc={navToViewNotes} />
+		</View>
+	);
+}
+
+function ViewNotesScreen({ navigation }) {
 	const navToHome = () => {
 		navigation.navigate("Home");
 	};
 
 	return (
 		<View style={styles.container}>
-			<Notes navFunc={navToHome} />
+			<ViewNotes />
+			<CustomButton
+				buttonText={"Finish"}
+				buttonFuncs={navToHome}
+				disabledStatus={false}
+			/>
 		</View>
 	);
 }

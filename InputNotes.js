@@ -2,16 +2,14 @@ import { StyleSheet, View, TextInput } from "react-native";
 import { useState } from "react";
 
 import { CustomButton } from "./CustomButton";
+import { addEntry } from "./database";
 
-export function Notes({ navFunc }) {
+export function InputNotes({ navFunc }) {
 	const [text, setText] = useState("");
 
-    function writeToFirebase() {
-        
-    }
-    
-    function funcBundler() {
-		writeToFirebase();
+	function funcBundler() {
+		let deviceTime = new Date();
+		addEntry(text, deviceTime.toISOString());
 		navFunc();
 	}
 
