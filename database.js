@@ -13,12 +13,22 @@ async function initDb() {
 
 // Write one new entry to db
 async function addEntry(notes, timestamp) {
+	if (notes !== null && notes !== "") {
+		const db = await initDb();
+		db.transaction((tx) => {
+			tx.executeSql("INSERT INTO user_notes (notes, timestamp) VALUES (?, ?)", [
+				notes,
+				timestamp,
+			]);
+		});
+	}
+}
+
+// Delete one entry from db
+async function deleteEntry(idNum) {
 	const db = await initDb();
 	db.transaction((tx) => {
-		tx.executeSql("INSERT INTO user_notes (notes, timestamp) VALUES (?, ?)", [
-			notes,
-			timestamp,
-		]);
+		tx.executeSql("DELETE FROM user_notes WHERE id = ?", [idNum]);
 	});
 }
 
@@ -41,4 +51,4 @@ async function getEntries() {
 	});
 }
 
-export { addEntry, getEntries };
+export { addEntry, getEntries, deleteEntry, initDb };

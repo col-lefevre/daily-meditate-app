@@ -7,9 +7,9 @@ import { addEntry } from "./database";
 export function InputNotes({ navFunc }) {
 	const [text, setText] = useState("");
 
-	function funcBundler() {
+	async function funcBundler() {
 		let deviceTime = new Date();
-		addEntry(text, deviceTime.toISOString());
+		await addEntry(text, deviceTime.toISOString());
 		navFunc();
 	}
 
@@ -23,7 +23,7 @@ export function InputNotes({ navFunc }) {
 				></TextInput>
 			</View>
 			<CustomButton
-				buttonText={"Finish"}
+				buttonText={"Submit"}
 				buttonFuncs={funcBundler}
 				disabledStatus={false}
 			/>

@@ -15,7 +15,7 @@ const Stack = createStackNavigator();
 
 function MyStack() {
 	return (
-		<Stack.Navigator initialRouteName="ViewNotes">
+		<Stack.Navigator initialRouteName="Home">
 			<Stack.Screen
 				name="Home"
 				component={HomeScreen}

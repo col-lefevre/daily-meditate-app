@@ -1,5 +1,12 @@
-import { StyleSheet, View, Text, FlatList } from "react-native";
-import { getEntries } from "./database";
+import {
+	StyleSheet,
+	View,
+	Text,
+	FlatList,
+	TouchableOpacity,
+	Alert,
+} from "react-native";
+import { getEntries, deleteEntry } from "./database";
 import { useState, useEffect } from "react";
 
 export function ViewNotes() {
@@ -15,7 +22,7 @@ export function ViewNotes() {
 			}
 		}
 		fetchData();
-	}, []);
+	}, [deleteBundler]);
 
 	function formatTime(timestamp) {
 		let date = new Date(timestamp);
@@ -31,6 +38,10 @@ export function ViewNotes() {
 		return formattedTime;
 	}
 
+	async function deleteBundler(idNum) {
+		await deleteEntry(idNum);
+	}
+
 	return (
 		<View style={styles.container}>
 			<FlatList
@@ -40,6 +51,12 @@ export function ViewNotes() {
 					<View style={styles.listEntry}>
 						<Text style={styles.notesText}>{item.notes}</Text>
 						<Text style={styles.timeText}>{formatTime(item.timestamp)}</Text>
+						<TouchableOpacity
+							style={styles.deleteBlock}
+							onPress={() => deleteBundler(item.id)}
+						>
+							<Text style={styles.deleteText}>Delete</Text>
+						</TouchableOpacity>
 					</View>
 				)}
 				keyExtractor={(item) => item.id.toString()}
@@ -63,6 +80,14 @@ const styles = StyleSheet.create({
 		fontSize: 15,
 		flex: 1,
 		color: "blue",
+	},
+	deleteText: {
+		fontSize: 15,
+		color: "red",
+	},
+	deleteBlock: {
+		flex: 1,
+		marginTop: 5,
 	},
 	flatList: {
 		backgroundColor: "pink",
