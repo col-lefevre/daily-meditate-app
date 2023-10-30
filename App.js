@@ -8,16 +8,17 @@ import { meditationPrompts } from "./InternalData";
 import { Prompt } from "./Prompt";
 import { CustomButton } from "./CustomButton";
 import { Timer } from "./Timer";
+import { Notes } from "./Notes";
 
 const Stack = createStackNavigator();
 
 function MyStack() {
 	return (
-		<Stack.Navigator initialRouteName="Home">
+		<Stack.Navigator initialRouteName="Notes">
 			<Stack.Screen
 				name="Home"
 				component={HomeScreen}
-				options={{ headerShown: false }}
+				options={{ headerShown: true }}
 			/>
 			<Stack.Screen
 				name="Prompt"
@@ -27,6 +28,11 @@ function MyStack() {
 			<Stack.Screen
 				name="Timer"
 				component={TimerScreen}
+				options={{ headerShown: false }}
+			/>
+			<Stack.Screen
+				name="Notes"
+				component={NotesScreen}
 				options={{ headerShown: false }}
 			/>
 		</Stack.Navigator>
@@ -87,10 +93,6 @@ function TimerScreen({ navigation }) {
 		}
 	}, [timer]);
 
-	// function getFormattedTime() {
-	// 	return `${Math.floor(timer / 60)}:${timer % 60}`;
-	// }
-
 	function getFormattedTime() {
 		let mins = Math.floor(timer / 60);
 		let secs = timer % 60;
@@ -102,18 +104,30 @@ function TimerScreen({ navigation }) {
 	}
 
 	// Nav wrapper
-	const navToHome = () => {
-		navigation.navigate("Home");
+	const navToNotes = () => {
+		navigation.navigate("Notes");
 	};
 
 	return (
 		<View style={styles.container}>
 			<Timer timerText={getFormattedTime()} />
 			<CustomButton
-				buttonText={"Finish"}
-				buttonFuncs={navToHome}
+				buttonText={"Take Notes"}
+				buttonFuncs={navToNotes}
 				disabledStatus={timer > 0}
 			/>
+		</View>
+	);
+}
+
+function NotesScreen({ navigation }) {
+	const navToHome = () => {
+		navigation.navigate("Home");
+	};
+
+	return (
+		<View style={styles.container}>
+			<Notes navFunc={navToHome} />
 		</View>
 	);
 }
