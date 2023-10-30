@@ -20,15 +20,6 @@ export function ViewNotes() {
 	function formatTime(timestamp) {
 		let date = new Date(timestamp);
 		let formattedTime = new Intl.DateTimeFormat("en-US", {
-			dateStyle: "full",
-			timeStyle: "long",
-		}).format(date);
-		return formattedTime;
-	}
-
-	function formatTime(timestamp) {
-		let date = new Date(timestamp);
-		let formattedTime = new Intl.DateTimeFormat("en-US", {
 			weekday: "short",
 			year: "numeric",
 			month: "short",
