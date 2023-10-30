@@ -51,4 +51,4 @@ async function getEntries() {
 	});
 }
 
-export { addEntry, getEntries, deleteEntry, initDb };
+export { addEntry, getEntries, deleteEntry };
