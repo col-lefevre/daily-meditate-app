@@ -4,7 +4,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-
 import { Text, Card, Button, createTheme, ThemeProvider } from "@rneui/themed";
 
 import { meditationPrompts } from "./InternalData";
@@ -13,8 +12,10 @@ import { CustomButton } from "./CustomButton";
 import { Timer } from "./Timer";
 import { InputNotes } from "./InputNotes";
 import { ViewNotes } from "./ViewNotes";
-import { CardTitle } from "@rneui/base/dist/Card/Card.Title";
-import { CardDivider } from "@rneui/base/dist/Card/Card.Divider";
+import { CustomCard } from "./CustomCard";
+
+import { stopMusic, pauseMusic, playMusic, setupMusic } from "./audio";
+// import { Audio } from "expo-av";
 
 const Stack = createStackNavigator();
 
@@ -89,13 +90,23 @@ function TestingScreen({ navigation }) {
         navigation.navigate("Home");
     };
 
+    let randomPrompt =
+        meditationPrompts[Math.floor(Math.random() * meditationPrompts.length)];
+
+    const [sound, setSound] = useState();
+
+    useEffect(() => {
+        setupMusic(setSound);
+        return () => (sound ? sound.unloadAsync() : undefined); // Clean up resources
+    }, []);
+
     return (
         <ImageBackground
             source={require("./assets/backgrounds/background2.jpg")}
             style={styles.backImg}
         >
             <SafeAreaView style={styles.container}>
-                <ThemeProvider theme={theme}>
+                {/* <ThemeProvider theme={theme}>
                     <Card>
                         <CardTitle>Meditation Prompt</CardTitle>
                         <CardDivider></CardDivider>
@@ -104,7 +115,23 @@ function TestingScreen({ navigation }) {
 
                     <Button title="Hey :3" onPress={navToHome} />
                     <Text>Hi there</Text>
-                </ThemeProvider>
+                </ThemeProvider> */}
+                <CustomCard
+                    title={"Your Daily Meditation Prompt"}
+                    body={randomPrompt}
+                />
+                <CustomButton
+                    buttonText={"Play Music"}
+                    buttonFuncs={() => playMusic(sound)}
+                />
+                <CustomButton
+                    buttonText={"Pause Music"}
+                    buttonFuncs={() => pauseMusic(sound)}
+                />
+                <CustomButton
+                    buttonText={"Stop Music"}
+                    buttonFuncs={() => stopMusic(sound)}
+                />
             </SafeAreaView>
         </ImageBackground>
     );
