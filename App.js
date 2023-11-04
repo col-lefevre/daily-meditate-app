@@ -4,18 +4,43 @@ import { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
+import { Text, Card, Button, createTheme, ThemeProvider } from "@rneui/themed";
+
 import { meditationPrompts } from "./InternalData";
 import { Prompt } from "./Prompt";
 import { CustomButton } from "./CustomButton";
 import { Timer } from "./Timer";
 import { InputNotes } from "./InputNotes";
 import { ViewNotes } from "./ViewNotes";
+import { CardTitle } from "@rneui/base/dist/Card/Card.Title";
+import { CardDivider } from "@rneui/base/dist/Card/Card.Divider";
 
 const Stack = createStackNavigator();
 
+const theme = createTheme({
+	colors: {
+		primary: "green",
+	},
+	components: {
+		Button: {
+			raised: false,
+		},
+		Text: {
+			style: {
+				fontFamily: "monospace",
+			},
+		},
+	},
+});
+
 function MyStack() {
 	return (
-		<Stack.Navigator initialRouteName="Home">
+		<Stack.Navigator initialRouteName="Testing">
+			<Stack.Screen
+				name="testing"
+				component={TestingScreen}
+				options={{ headerShown: false }}
+			/>
 			<Stack.Screen
 				name="Home"
 				component={HomeScreen}
@@ -42,6 +67,27 @@ function MyStack() {
 				options={{ headerShown: false }}
 			/>
 		</Stack.Navigator>
+	);
+}
+
+function TestingScreen({ navigation }) {
+	const navToHome = () => {
+		navigation.navigate("Home");
+	};
+
+	return (
+		<View style={styles.container}>
+			<ThemeProvider theme={theme}>
+				<Card>
+					<CardTitle>Meditation Prompt</CardTitle>
+					<CardDivider></CardDivider>
+					<Text>Card content. Woah!</Text>
+				</Card>
+
+				<Button title="Hey :3" />
+				<Text>Hi there</Text>
+			</ThemeProvider>
+		</View>
 	);
 }
 

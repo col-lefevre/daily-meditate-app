@@ -4,7 +4,6 @@ import {
 	Text,
 	FlatList,
 	TouchableOpacity,
-	Alert,
 } from "react-native";
 import { getEntries, deleteEntry } from "./database";
 import { useState, useEffect } from "react";
