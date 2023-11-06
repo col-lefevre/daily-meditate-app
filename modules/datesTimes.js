@@ -24,4 +24,12 @@ function formatDate(timestamp) {
     return formattedTime;
 }
 
-export { formatTimer, formatDate };
+function getDay() {
+    let date = new Date();
+    let formattedTime = new Intl.DateTimeFormat("en-US", {
+        weekday: "long",
+    }).format(date);
+    return formattedTime;
+}
+
+export { formatTimer, formatDate, getDay };

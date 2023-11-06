@@ -5,6 +5,7 @@ import { LargeButton } from "../components/LargeButton";
 import { SmallButton } from "../components/SmallButton";
 
 import { globalStyles } from "../modules/globalStyles";
+import { getDay } from "../modules/datesTimes";
 
 export default function HomeScreen({ navigation }) {
     // Nav wrapper
@@ -27,7 +28,7 @@ export default function HomeScreen({ navigation }) {
             >
                 <LargeButton
                     title={"Meditate"}
-                    subtitle={"Thursday"}
+                    subtitle={getDay()}
                     funcs={navToPrompt}
                 />
             </View>
