@@ -1,4 +1,5 @@
 import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet } from "react-native";
 
 import { ViewNotes } from "../components/ViewNotes";
 import { SmallButton } from "../components/SmallButton";
@@ -11,7 +12,12 @@ export default function ViewNotesScreen({ navigation }) {
     };
 
     return (
-        <SafeAreaView style={globalStyles.container}>
+        <SafeAreaView
+            style={[
+                globalStyles.container,
+                { flex: 1, backgroundColor: "white" },
+            ]}
+        >
             <ViewNotes />
             <SmallButton
                 buttonText={"Finish"}
