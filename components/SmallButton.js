@@ -1,6 +1,6 @@
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
 
-export function CustomButton({
+export function SmallButton({
     buttonText,
     buttonFuncs,
     disabledStatus = false,
@@ -9,35 +9,37 @@ export function CustomButton({
         ? styles.disabledButton
         : styles.enabledButton;
 
-    let customButton = StyleSheet.compose(styles.buttonDimensions, buttonColor);
+    let customButton = StyleSheet.compose(styles.customButtonText, buttonColor);
 
     return (
         <TouchableOpacity
-            style={customButton}
+            style={styles.buttonDimensions}
             onPress={buttonFuncs}
             disabled={disabledStatus}
         >
-            <Text style={styles.customButtonText}>{buttonText}</Text>
+            <Text style={customButton}>{buttonText}</Text>
         </TouchableOpacity>
     );
 }
 
 const styles = StyleSheet.create({
     buttonDimensions: {
-        padding: 10,
-        marginTop: 5,
-        borderRadius: 5,
-        justifyContent: "center",
+        padding: 15,
+        borderRadius: 10,
+        borderColor: "#D3D3D3",
+        borderWidth: 3,
+        borderStyle: "solid",
+        backgroundColor: "white",
     },
     enabledButton: {
-        backgroundColor: "purple",
+        color: "black",
     },
     disabledButton: {
-        backgroundColor: "grey",
+        color: "#D3D3D3",
     },
     customButtonText: {
-        color: "white",
         textAlign: "center",
-        fontSize: 15,
+        fontSize: 17.5,
+        letterSpacing: 0.75,
     },
 });

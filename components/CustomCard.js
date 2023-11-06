@@ -2,20 +2,14 @@ import { Text, StyleSheet, View } from "react-native";
 
 export function CustomCard({ title, body }) {
     return (
-        <View style={styles.appContainer}>
-            <View style={styles.cardContainer}>
-                <Text style={styles.titleText}>{title}</Text>
-                <Text style={styles.bodyText}>{body}</Text>
-            </View>
+        <View style={styles.cardContainer}>
+            <Text style={styles.titleText}>{title}</Text>
+            <Text style={styles.bodyText}>{body}</Text>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    appContainer: {
-        margin: 25,
-        flex: 1,
-    },
     cardContainer: {
         padding: 20,
         borderRadius: 10,
@@ -23,16 +17,19 @@ const styles = StyleSheet.create({
         borderWidth: 3,
         borderStyle: "solid",
         backgroundColor: "white",
+        margin: 25,
     },
     titleText: {
         fontSize: 20,
-        paddingBottom: 5,
         borderBottomWidth: 2,
         borderBottomColor: "#D3D3D3",
         borderStyle: "dashed",
+        letterSpacing: 1,
+        textAlign: "center",
+        paddingBottom: 10,
+        marginBottom: 10,
     },
     bodyText: {
-        paddingTop: 5,
         fontSize: 15,
     },
 });
