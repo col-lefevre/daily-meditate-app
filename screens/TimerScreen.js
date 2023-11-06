@@ -1,52 +1,49 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
+import { StyleSheet, View } from "react-native";
 import { Audio } from "expo-av";
+import { Slider } from "@react-native-assets/slider";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 import { LargeButton } from "../components/LargeButton";
-import { SmallButton } from "../components/SmallButton";
 
 import { formatTimer } from "../modules/datesTimes";
 import globalStyles from "../modules/globalStyles";
 
 export default function TimerScreen({ navigation }) {
-    let [timer, setTimer] = useState();
+    let [timer, setTimer] = useState(10); // Timer value
     let [sound, setSound] = useState();
-    let [muted, setMuted] = useState();
+    let [volume, setVolume] = useState(0.5); // Default volume
 
-    // Setup / play music and start timer on page load
+    // Setup / play music on page load
     useEffect(() => {
         async function setupPlayMusic() {
             const { sound } = await Audio.Sound.createAsync(
                 require("../assets/music/music1.mp3")
             );
             setSound(sound);
-
-            // Prevent crash if sound does not load
             if (sound) {
-                await sound.setVolumeAsync(1, 1);
-                setMuted(false);
                 await sound.playAsync();
             }
         }
         setupPlayMusic();
-        setTimer(10);
-        return () => (sound ? sound.unloadAsync() : undefined);
     }, []);
 
-    // Decrement timer every second
+    // Unload sound on page unmount
     useEffect(() => {
+        return sound ? () => sound.unloadAsync() : undefined;
+    }, [sound]);
+
+    useEffect(() => {
+        // Decrement timer every second;
         if (timer > 0) {
             const interval = setInterval(() => {
                 setTimer(timer - 1);
             }, 1000);
             return () => clearInterval(interval);
         }
-    }, [timer]);
-
-    // Stop music after timer ends
-    useEffect(() => {
-        // Prevent crash if sound does not load
-        if (timer == 0 && sound) {
+        // Stop music when timer ends
+        else if (timer == 0 && sound) {
             async function stopMusic() {
                 await sound.stopAsync();
             }
@@ -54,17 +51,20 @@ export default function TimerScreen({ navigation }) {
         }
     }, [timer]);
 
-    // Control volume - mute / unmute
-    async function controlVolume() {
-        // Prevent crash if sound does not load
+    // Make sound volume match "volume" state
+    useEffect(() => {
         if (sound) {
-            if (muted) {
-                await sound.setVolumeAsync(1, 1);
-                setMuted(false);
-            } else {
-                await sound.setVolumeAsync(0, 0);
-                setMuted(true);
+            async function setMusicVolume() {
+                await sound.setVolumeAsync(volume);
             }
+            setMusicVolume();
+        }
+    }, [volume]);
+
+    // Wrapper for setVolume
+    function setVolumeState(inputNum) {
+        if (inputNum <= 1 && inputNum >= 0) {
+            setVolume(inputNum);
         }
     }
 
@@ -74,13 +74,54 @@ export default function TimerScreen({ navigation }) {
     };
 
     return (
-        <SafeAreaView style={globalStyles.container}>
+        <SafeAreaView
+            style={[globalStyles.container, { justifyContent: "flex-end" }]}
+        >
             <LargeButton
                 title={timer > 0 ? formatTimer(timer) : "Done"}
                 subtitle={timer > 0 ? "Currently Meditating" : "Tap to Finish"}
                 funcs={navToInputNotes}
-                disabled={timer > 0}
+                disabledStatus={timer > 0}
             />
+            <View style={styles.volumeControls}>
+                <Ionicons name={"volume-low"} size={30} color="#052e4e" />
+                <Slider
+                    style={styles.slider}
+                    value={0.5}
+                    minimumValue={0}
+                    maximumValue={1}
+                    step={0}
+                    minimumTrackTintColor="#052e4e"
+                    maximumTrackTintColor="#D3D3D3"
+                    thumbTintColor="#052e4e"
+                    trackHeight={7}
+                    thumbSize={20}
+                    onValueChange={(value) => setVolumeState(value)}
+                />
+                <Ionicons name={"volume-high"} size={30} color="#052e4e" />
+            </View>
         </SafeAreaView>
     );
 }
+
+const styles = StyleSheet.create({
+    slider: {
+        width: 150,
+        height: 60,
+    },
+    volumeControls: {
+        borderWidth: 3,
+        borderColor: "#D3D3D3",
+        borderStyle: "solid",
+        backgroundColor: "white",
+        borderRadius: 50,
+        paddingVertical: 0,
+        paddingHorizontal: 10,
+        flexDirection: "row",
+        gap: 20,
+        flexGrow: 0,
+        alignItems: "center",
+        marginTop: 250,
+        marginBottom: 50,
+    },
+});
