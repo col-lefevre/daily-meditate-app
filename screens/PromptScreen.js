@@ -1,9 +1,10 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { CustomCard } from "../components/CustomCard";
-import { SmallButton } from "../components/LargeButton";
+import { SmallButton } from "../components/SmallButton";
 
-import { meditationPrompts } from "../modules/internalData";
+import meditationPrompts from "../modules/meditationPrompts";
+import globalStyles from "../modules/globalStyles";
 
 export default function PromptScreen({ navigation }) {
     // Nav wrapper
@@ -15,16 +16,13 @@ export default function PromptScreen({ navigation }) {
         meditationPrompts[Math.floor(Math.random() * meditationPrompts.length)];
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={globalStyles.container}>
             <CustomCard
                 title={"Your Daily Meditation Prompt"}
                 body={randomPrompt}
             />
-            <SmallButton
-                buttonText={"Begin"}
-                buttonFuncs={navToTimer}
-                disabledStatus={false}
-            />
+
+            <SmallButton buttonText={"Begin"} buttonFuncs={navToTimer} />
         </SafeAreaView>
     );
 }

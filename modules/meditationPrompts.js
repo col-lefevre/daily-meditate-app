@@ -11,4 +11,4 @@ const meditationPrompts = [
     "Bring to mind a past moment of laughter and joy. Rekindle the happiness and allow it to uplift your spirit in the present.",
 ];
 
-export { meditationPrompts };
+export default meditationPrompts;

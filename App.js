@@ -5,7 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import globalStyles from "./modules/globalStyles";
 
 import HomeScreen from "./screens/HomeScreen";
-import PromptScreen from "./screens/PromptScreen";
+import PromptScreen from "./screens/PromptScreen.js";
 import TimerScreen from "./screens/TimerScreen";
 import ViewNotesScreen from "./screens/ViewNotesScreen";
 import InputNotesScreen from "./screens/InputNotesScreen";
@@ -14,7 +14,7 @@ const Stack = createStackNavigator();
 
 function MyStack() {
     return (
-        <Stack.Navigator initialRouteName="Timer">
+        <Stack.Navigator initialRouteName="Home">
             <Stack.Screen
                 name="Home"
                 component={HomeScreen}
