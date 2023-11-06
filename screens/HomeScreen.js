@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native";
 import { LargeButton } from "../components/LargeButton";
 import { SmallButton } from "../components/SmallButton";
 
-import globalStyles from "../modules/globalStyles";
+import { globalStyles } from "../modules/globalStyles";
 
 export default function HomeScreen({ navigation }) {
     // Nav wrapper

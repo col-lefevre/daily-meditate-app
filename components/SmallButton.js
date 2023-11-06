@@ -1,6 +1,6 @@
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
 
-import globalStyles from "../modules/globalStyles";
+import { globalStyles } from "../modules/globalStyles";
 
 export function SmallButton({
     buttonText,

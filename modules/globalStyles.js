@@ -18,4 +18,8 @@ const globalStyles = StyleSheet.create({
     },
 });
 
-export default globalStyles;
+function getPrimaryBlue() {
+    return "#0a618c";
+}
+
+export { globalStyles, getPrimaryBlue };

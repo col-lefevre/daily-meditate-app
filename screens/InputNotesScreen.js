@@ -5,7 +5,7 @@ import { SmallButton } from "../components/SmallButton";
 import { CustomCardFrame } from "../components/CustomCard";
 
 import { addEntry } from "../modules/database";
-import globalStyles from "../modules/globalStyles";
+import { globalStyles } from "../modules/globalStyles";
 
 export default function InputNotesScreen({ navigation }) {
     let [text, setText] = useState("");

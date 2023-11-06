@@ -17,9 +17,9 @@ function formatDate(timestamp) {
         year: "numeric",
         month: "short",
         day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        timeZoneName: "short",
+        // hour: "numeric",
+        // minute: "numeric",
+        // timeZoneName: "short",
     }).format(date);
     return formattedTime;
 }

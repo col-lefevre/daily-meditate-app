@@ -2,7 +2,7 @@ import { ImageBackground } from "react-native";
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import globalStyles from "./modules/globalStyles";
+import { globalStyles } from "./modules/globalStyles";
 
 import HomeScreen from "./screens/HomeScreen";
 import PromptScreen from "./screens/PromptScreen.js";

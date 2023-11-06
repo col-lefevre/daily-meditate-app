@@ -1,6 +1,6 @@
 import { Text, StyleSheet, View } from "react-native";
 
-import globalStyles from "../modules/globalStyles";
+import { globalStyles } from "../modules/globalStyles";
 
 export function CustomCard({ title, body }) {
     return (

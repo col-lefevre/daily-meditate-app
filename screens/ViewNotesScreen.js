@@ -7,10 +7,11 @@ import {
     TouchableOpacity,
 } from "react-native";
 import { useState, useEffect } from "react";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 import { CustomCardFrame } from "../components/CustomCard";
 
-import globalStyles from "../modules/globalStyles";
+import { globalStyles } from "../modules/globalStyles";
 import { getEntries, deleteEntry } from "../modules/database";
 import { formatDate } from "../modules/datesTimes";
 
@@ -41,16 +42,21 @@ export default function ViewNotesScreen({ navigation }) {
                     data={userData}
                     renderItem={({ item }) => (
                         <View style={styles.listEntry}>
+                            <View style={styles.entryTitleContainer}>
+                                <Text style={styles.timeText}>
+                                    {formatDate(item.timestamp)}
+                                </Text>
+                                <TouchableOpacity
+                                    onPress={() => deleteBundler(item.id)}
+                                >
+                                    <Ionicons
+                                        name={"trash"}
+                                        size={20}
+                                        color="#0a618c"
+                                    />
+                                </TouchableOpacity>
+                            </View>
                             <Text style={styles.notesText}>{item.notes}</Text>
-                            <Text style={styles.timeText}>
-                                {formatDate(item.timestamp)}
-                            </Text>
-                            <TouchableOpacity
-                                style={styles.deleteBlock}
-                                onPress={() => deleteBundler(item.id)}
-                            >
-                                <Text style={styles.deleteText}>Delete</Text>
-                            </TouchableOpacity>
                         </View>
                     )}
                     keyExtractor={(item) => item.id.toString()}
@@ -61,30 +67,33 @@ export default function ViewNotesScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+    notesContainer: {
+        justifyContent: "center",
+        alignItems: "center",
+        flex: 1,
+    },
     notesText: {
-        fontSize: 25,
-        flex: 2,
+        fontSize: 15,
         color: "black",
     },
     timeText: {
-        fontSize: 15,
-        flex: 1,
-        color: "blue",
+        fontSize: 17.5,
+        color: "#0a618c",
+        letterSpacing: 1,
+        fontWeight: "normal",
     },
     deleteText: {
         fontSize: 15,
         color: "red",
     },
-    deleteBlock: {
-        flex: 1,
-        marginTop: 5,
-    },
-    flatList: {
-        backgroundColor: "pink",
-        padding: 20,
-        margin: 20,
-    },
+    flatList: {},
     listEntry: {
-        marginBottom: 10,
+        marginBottom: 15,
+    },
+    entryTitleContainer: {
+        flexDirection: "row",
+        gap: 10,
+        alignItems: "center",
+        justifyContent: "flex-start",
     },
 });

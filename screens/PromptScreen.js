@@ -4,7 +4,7 @@ import { CustomCard } from "../components/CustomCard";
 import { SmallButton } from "../components/SmallButton";
 
 import meditationPrompts from "../modules/meditationPrompts";
-import globalStyles from "../modules/globalStyles";
+import { globalStyles } from "../modules/globalStyles";
 
 export default function PromptScreen({ navigation }) {
     // Nav wrapper
