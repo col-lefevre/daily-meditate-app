@@ -5,9 +5,6 @@ import {
     FlatList,
     TouchableOpacity,
 } from "react-native";
-import { getEntries, deleteEntry } from "../modules/database";
-import { useState, useEffect } from "react";
-import { formatDate } from "../modules/datesTimes";
 
 export function ViewNotes() {
     const [userData, setUserData] = useState([]);

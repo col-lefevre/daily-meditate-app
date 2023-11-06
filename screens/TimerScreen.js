@@ -83,7 +83,7 @@ export default function TimerScreen({ navigation }) {
                 funcs={navToInputNotes}
                 disabledStatus={timer > 0}
             />
-            <View style={styles.volumeControls}>
+            <View style={[styles.volumeControls, globalStyles.borders]}>
                 <Ionicons name={"volume-low"} size={30} color="#052e4e" />
                 <Slider
                     style={styles.slider}
@@ -110,10 +110,6 @@ const styles = StyleSheet.create({
         height: 60,
     },
     volumeControls: {
-        borderWidth: 3,
-        borderColor: "#D3D3D3",
-        borderStyle: "solid",
-        backgroundColor: "white",
         borderRadius: 50,
         paddingVertical: 0,
         paddingHorizontal: 10,

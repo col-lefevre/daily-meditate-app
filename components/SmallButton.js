@@ -1,5 +1,7 @@
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
 
+import globalStyles from "../modules/globalStyles";
+
 export function SmallButton({
     buttonText,
     buttonFuncs,
@@ -13,7 +15,7 @@ export function SmallButton({
 
     return (
         <TouchableOpacity
-            style={styles.buttonDimensions}
+            style={[styles.buttonDimensions, globalStyles.borders]}
             onPress={buttonFuncs}
             disabled={disabledStatus}
         >
@@ -26,10 +28,6 @@ const styles = StyleSheet.create({
     buttonDimensions: {
         padding: 15,
         borderRadius: 10,
-        borderColor: "#D3D3D3",
-        borderWidth: 3,
-        borderStyle: "solid",
-        backgroundColor: "white",
     },
     enabledButton: {
         color: "black",
