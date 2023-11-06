@@ -2,13 +2,16 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
 import { Audio } from "expo-av";
 
-import { formatTimer } from "../modules/datesTimes";
 import { LargeButton } from "../components/LargeButton";
+import { SmallButton } from "../components/SmallButton";
+
+import { formatTimer } from "../modules/datesTimes";
 import globalStyles from "../modules/globalStyles";
 
 export default function TimerScreen({ navigation }) {
     let [timer, setTimer] = useState();
     let [sound, setSound] = useState();
+    let [muted, setMuted] = useState();
 
     // Setup / play music and start timer on page load
     useEffect(() => {
@@ -21,6 +24,7 @@ export default function TimerScreen({ navigation }) {
             // Prevent crash if sound does not load
             if (sound) {
                 await sound.setVolumeAsync(1, 1);
+                setMuted(false);
                 await sound.playAsync();
             }
         }
@@ -50,17 +54,17 @@ export default function TimerScreen({ navigation }) {
         }
     }, [timer]);
 
-    async function muteMusic() {
+    // Control volume - mute / unmute
+    async function controlVolume() {
         // Prevent crash if sound does not load
         if (sound) {
-            await sound.setVolumeAsync(0, 0);
-        }
-    }
-
-    async function unmuteMusic() {
-        // Prevent crash if sound does not load
-        if (sound) {
-            await sound.setVolumeAsync(0, 0);
+            if (muted) {
+                await sound.setVolumeAsync(1, 1);
+                setMuted(false);
+            } else {
+                await sound.setVolumeAsync(0, 0);
+                setMuted(true);
+            }
         }
     }
 
