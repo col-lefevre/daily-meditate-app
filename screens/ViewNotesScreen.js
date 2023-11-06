@@ -11,7 +11,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 
 import { CustomCardFrame } from "../components/CustomCard";
 
-import { globalStyles } from "../modules/globalStyles";
+import { globalStyles, getPrimaryBlue } from "../modules/globalStyles";
 import { getEntries, deleteEntry } from "../modules/database";
 import { formatDate } from "../modules/datesTimes";
 
@@ -52,7 +52,7 @@ export default function ViewNotesScreen({ navigation }) {
                                     <Ionicons
                                         name={"trash"}
                                         size={20}
-                                        color="#0a618c"
+                                        color={getPrimaryBlue()}
                                     />
                                 </TouchableOpacity>
                             </View>
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     },
     timeText: {
         fontSize: 17.5,
-        color: "#0a618c",
+        color: getPrimaryBlue(),
         letterSpacing: 1,
         fontWeight: "normal",
     },

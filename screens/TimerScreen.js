@@ -8,10 +8,10 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { LargeButton } from "../components/LargeButton";
 
 import { formatTimer } from "../modules/datesTimes";
-import { globalStyles } from "../modules/globalStyles";
+import { globalStyles, getPrimaryBlue } from "../modules/globalStyles";
 
 export default function TimerScreen({ navigation }) {
-    let [timer, setTimer] = useState(10); // Timer value
+    let [timer, setTimer] = useState(30); // Timer value
     let [sound, setSound] = useState();
     let [volume, setVolume] = useState(0.5); // Default volume
 
@@ -84,21 +84,29 @@ export default function TimerScreen({ navigation }) {
                 disabledStatus={timer > 0}
             />
             <View style={[styles.volumeControls, globalStyles.borders]}>
-                <Ionicons name={"volume-low"} size={30} color="#0a618c" />
+                <Ionicons
+                    name={"volume-low"}
+                    size={30}
+                    color={getPrimaryBlue()}
+                />
                 <Slider
                     style={styles.slider}
                     value={0.5}
                     minimumValue={0}
                     maximumValue={1}
                     step={0}
-                    minimumTrackTintColor="#0a618c"
+                    minimumTrackTintColor={getPrimaryBlue()}
                     maximumTrackTintColor="#D3D3D3"
-                    thumbTintColor="#0a618c"
+                    thumbTintColor={getPrimaryBlue()}
                     trackHeight={7}
                     thumbSize={20}
                     onValueChange={(value) => setVolumeState(value)}
                 />
-                <Ionicons name={"volume-high"} size={30} color="#0a618c" />
+                <Ionicons
+                    name={"volume-high"}
+                    size={30}
+                    color={getPrimaryBlue()}
+                />
             </View>
         </SafeAreaView>
     );
