@@ -1,8 +1,12 @@
 import { ImageBackground } from "react-native";
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { useContext, useState } from "react";
 
 import { globalStyles } from "./modules/globalStyles";
+import { meditationPrompts, timers } from "./modules/meditationPrompts.js";
+
+import { PromptContext } from "./components/PromptContext.js";
 
 import HomeScreen from "./screens/HomeScreen";
 import PromptScreen from "./screens/PromptScreen.js";
@@ -45,6 +49,9 @@ function MyStack() {
 }
 
 export default function App() {
+    const [prompt, setPrompt] = useState(meditationPrompts[0]);
+    const [timer, setTimer] = useState(timers[0]);
+
     // Necessary to have image background; ty Stack Overflow :)
     const navTheme = {
         ...DefaultTheme,
@@ -55,13 +62,15 @@ export default function App() {
     };
 
     return (
-        <ImageBackground
-            source={require("./assets/backgrounds/background2.jpg")}
-            style={globalStyles.backImg}
-        >
-            <NavigationContainer theme={navTheme}>
-                <MyStack />
-            </NavigationContainer>
-        </ImageBackground>
+        <PromptContext.Provider value={{ prompt, setPrompt, timer, setTimer }}>
+            <ImageBackground
+                source={require("./assets/backgrounds/background2.jpg")}
+                style={globalStyles.backImg}
+            >
+                <NavigationContainer theme={navTheme}>
+                    <MyStack />
+                </NavigationContainer>
+            </ImageBackground>
+        </PromptContext.Provider>
     );
 }

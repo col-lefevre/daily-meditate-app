@@ -12,7 +12,7 @@ const globalStyles = StyleSheet.create({
     },
     borders: {
         borderWidth: 3,
-        borderColor: "#D3D3D3",
+        borderColor: getPrimaryGrey(),
         borderStyle: "solid",
         backgroundColor: "white",
     },
@@ -22,4 +22,8 @@ function getPrimaryBlue() {
     return "#0a618c";
 }
 
-export { globalStyles, getPrimaryBlue };
+function getPrimaryGrey() {
+    return "#D3D3D3";
+}
+
+export { globalStyles, getPrimaryBlue, getPrimaryGrey };

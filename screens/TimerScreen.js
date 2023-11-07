@@ -1,17 +1,19 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Audio } from "expo-av";
 import { Slider } from "@react-native-assets/slider";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 import { LargeButton } from "../components/LargeButton";
+import { PromptContext } from "../components/PromptContext";
 
 import { formatTimer } from "../modules/datesTimes";
 import { globalStyles, getPrimaryBlue } from "../modules/globalStyles";
 
 export default function TimerScreen({ navigation }) {
-    let [timer, setTimer] = useState(30); // Timer value
+    const { timer, setTimer } = useContext(PromptContext);
+
     let [sound, setSound] = useState();
     let [volume, setVolume] = useState(0.5); // Default volume
 

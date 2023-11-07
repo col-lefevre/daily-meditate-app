@@ -15,7 +15,7 @@ export function CustomCardFrame({ title, children }) {
     return (
         <View style={[styles.cardContainer, globalStyles.borders]}>
             <Text style={styles.titleText}>{title}</Text>
-            {children}
+            <View style={styles.childContainer}>{children}</View>
         </View>
     );
 }
@@ -38,5 +38,8 @@ const styles = StyleSheet.create({
     },
     bodyText: {
         fontSize: 15,
+    },
+    childContainer: {
+        width: 300,
     },
 });
