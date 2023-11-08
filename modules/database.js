@@ -5,7 +5,7 @@ async function initDb() {
     const db = await SQLite.openDatabase("db.meditation_notes");
     db.transaction((tx) =>
         tx.executeSql(
-            "CREATE TABLE IF NOT EXISTS user_notes (id INTEGER PRIMARY KEY AUTOINCREMENT, notes TEXT, timestamp TIMESTAMP, timer TEXT, prompt TEXT)"
+            "CREATE TABLE IF NOT EXISTS med_notes (id INTEGER PRIMARY KEY AUTOINCREMENT, notes TEXT, timestamp TIMESTAMP, timer TEXT, prompt TEXT)"
         )
     );
     return db;
@@ -17,7 +17,7 @@ async function addEntry(notes, timestamp, timer, prompt) {
         const db = await initDb();
         db.transaction((tx) => {
             tx.executeSql(
-                "INSERT INTO user_notes (notes, timestamp, timer, prompt) VALUES (?, ?, ?, ?)",
+                "INSERT INTO med_notes (notes, timestamp, timer, prompt) VALUES (?, ?, ?, ?)",
                 [notes, timestamp, timer, prompt]
             );
         });
@@ -28,7 +28,7 @@ async function addEntry(notes, timestamp, timer, prompt) {
 async function deleteEntry(idNum) {
     const db = await initDb();
     db.transaction((tx) => {
-        tx.executeSql("DELETE FROM user_notes WHERE id = ?", [idNum]);
+        tx.executeSql("DELETE FROM med_notes WHERE id = ?", [idNum]);
     });
 }
 
@@ -38,7 +38,7 @@ async function getEntries() {
     return new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-                "SELECT * FROM user_notes",
+                "SELECT * FROM med_notes",
                 [],
                 (_, { rows }) => {
                     resolve(rows._array);

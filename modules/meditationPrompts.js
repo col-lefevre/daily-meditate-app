@@ -6,6 +6,6 @@ const meditationPrompts = [
     "Remember a time when you overcame a fear. Feel the courage within you and how it still empowers you today.",
 ];
 
-const timers = [60, 120, 180];
+const timers = [2, 60, 120, 180];
 
 export { meditationPrompts, timers };

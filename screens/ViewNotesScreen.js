@@ -1,4 +1,3 @@
-import { SafeAreaView } from "react-native-safe-area-context";
 import {
     StyleSheet,
     FlatList,
@@ -9,9 +8,7 @@ import {
 import { useState, useEffect } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-import { CustomCardFrame } from "../components/CustomCard";
-
-import { globalStyles } from "../modules/globalStyles";
+import { getPrimaryGrey, globalStyles } from "../modules/globalStyles";
 import { getEntries, deleteEntry } from "../modules/database";
 import { formatDate, formatTimer } from "../modules/datesTimes";
 
@@ -34,12 +31,27 @@ export default function ViewNotesScreen({ navigation }) {
         await deleteEntry(idNum);
     }
 
+    // Nav wrapper
+    const navToHome = () => {
+        navigation.navigate("Home");
+    };
+
     return (
-        <SafeAreaView style={styles.container1}>
-            <View style={styles.container2}>
+        <View style={styles.container}>
+            <View style={styles.titleView}>
+                <TouchableOpacity
+                    onPress={navToHome}
+                    style={styles.titleIconBlock}
+                >
+                    <TextIcon text={""} iconName={"arrow-back"} size={22.5} />
+                </TouchableOpacity>
+                <Text style={styles.titleText}>Your Notes</Text>
+                <View style={styles.titleIconBlock}></View>
+            </View>
+            {userData.length > 0 ? (
                 <FlatList
-                    style={styles.flatList}
                     data={userData}
+                    style={styles.flatList}
                     renderItem={({ item }) => (
                         <FlatListEntry
                             timestamp={item.timestamp}
@@ -52,62 +64,61 @@ export default function ViewNotesScreen({ navigation }) {
                     )}
                     keyExtractor={(item) => item.id.toString()}
                 />
-            </View>
-        </SafeAreaView>
+            ) : (
+                <View style={styles.placeholderContainer}>
+                    <View
+                        style={[styles.placeholderView, globalStyles.borders]}
+                    >
+                        <Text style={styles.notesText}>
+                            Once you meditate, any notes you make will show up
+                            here!
+                        </Text>
+                    </View>
+                </View>
+            )}
+        </View>
     );
 }
 
 function FlatListEntry({ timestamp, timer, notes, prompt, id, deleteFunc }) {
     return (
-        <View>
-            <View style={styles.detailsContainer}>
-                <View style={styles.detailContainer}>
-                    <Ionicons
-                        name={"calendar-outline"}
-                        size={20}
-                        color={"black"}
+        <View style={[styles.flatListEntry, globalStyles.borders]}>
+            <View style={styles.headerContainer}>
+                <View style={styles.detailsContainer}>
+                    <TextIcon
+                        iconName={"calendar"}
+                        text={formatDate(timestamp)}
                     />
-                    <Text style={styles.detailText}>
-                        {formatDate(timestamp)}
-                    </Text>
-                </View>
-                <View style={styles.detailContainer}>
-                    <Ionicons
-                        name={"hourglass-outline"}
-                        size={20}
-                        color={"black"}
+                    <TextIcon
+                        iconName={"hourglass"}
+                        text={formatTimer(timer)}
                     />
-                    <Text style={styles.detailText}>{formatTimer(timer)}</Text>
                 </View>
-            </View>
-            <Text style={styles.notesText}>Notes: {notes}</Text>
-            <View style={styles.detailContainer}>
                 <TouchableOpacity onPress={() => deleteFunc(id)}>
-                    <Ionicons
-                        name={"trash-outline"}
-                        size={20}
-                        color={"black"}
-                    />
+                    <TextIcon iconName={"trash"} text={""} />
                 </TouchableOpacity>
-                <Text style={styles.detailText}>Delete?</Text>
             </View>
+            <Text style={styles.notesText}>{notes}</Text>
+        </View>
+    );
+}
+
+function TextIcon({ iconName, size = 20, color = "black", text }) {
+    return (
+        <View style={styles.detailContainer}>
+            <Ionicons name={iconName} size={size} color={color} />
+            <Text style={styles.detailText}>{text}</Text>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container1: {
-        backgroundColor: "white",
-        flex: 1,
-    },
-
-    container2: {
-        backgroundColor: "white",
-        paddingHorizontal: 20,
+    container: {
         flex: 1,
     },
     detailText: {
-        fontSize: 15,
+        fontSize: 16,
+        letterSpacing: 0.5,
     },
     detailContainer: {
         flexDirection: "row",
@@ -120,6 +131,53 @@ const styles = StyleSheet.create({
     notesText: {
         fontSize: 15,
         color: "black",
-        paddingVertical: 10,
+    },
+    flatListEntry: {
+        marginBottom: 20,
+        backgroundColor: "white",
+        padding: 15,
+        borderRadius: 10,
+    },
+    flatList: {
+        flex: 1,
+        paddingHorizontal: 20,
+    },
+    titleView: {
+        paddingTop: 50,
+        backgroundColor: "white",
+        marginBottom: 20,
+        borderBottomWidth: 3,
+        borderBottomColor: getPrimaryGrey(),
+        flexDirection: "row",
+        alignItems: "center",
+        paddingBottom: 20,
+        justifyContent: "center",
+    },
+    titleText: {
+        textAlign: "center",
+        textAlignVertical: "center",
+        fontSize: 20,
+        letterSpacing: 1,
+        flex: 5,
+    },
+    titleIconBlock: {
+        flex: 1,
+        paddingHorizontal: 10,
+    },
+    headerContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        paddingBottom: 10,
+    },
+    placeholderContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    placeholderView: {
+        backgroundColor: "white",
+        padding: 15,
+        borderRadius: 10,
+        width: 300,
     },
 });
