@@ -13,9 +13,9 @@ function formatTimer(timer) {
 function formatDate(timestamp) {
     let date = new Date(timestamp);
     let formattedTime = new Intl.DateTimeFormat("en-US", {
-        weekday: "short",
+        // weekday: "short",
         year: "numeric",
-        month: "short",
+        month: "numeric",
         day: "numeric",
         // hour: "numeric",
         // minute: "numeric",

@@ -5,20 +5,20 @@ async function initDb() {
     const db = await SQLite.openDatabase("db.meditation_notes");
     db.transaction((tx) =>
         tx.executeSql(
-            "CREATE TABLE IF NOT EXISTS user_notes (id INTEGER PRIMARY KEY AUTOINCREMENT, notes TEXT, timestamp TIMESTAMP)"
+            "CREATE TABLE IF NOT EXISTS user_notes (id INTEGER PRIMARY KEY AUTOINCREMENT, notes TEXT, timestamp TIMESTAMP, timer TEXT, prompt TEXT)"
         )
     );
     return db;
 }
 
 // Write one new entry to db
-async function addEntry(notes, timestamp) {
+async function addEntry(notes, timestamp, timer, prompt) {
     if (notes !== null && notes !== "") {
         const db = await initDb();
         db.transaction((tx) => {
             tx.executeSql(
-                "INSERT INTO user_notes (notes, timestamp) VALUES (?, ?)",
-                [notes, timestamp]
+                "INSERT INTO user_notes (notes, timestamp, timer, prompt) VALUES (?, ?, ?, ?)",
+                [notes, timestamp, timer, prompt]
             );
         });
     }

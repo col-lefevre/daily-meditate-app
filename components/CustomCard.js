@@ -11,6 +11,15 @@ export function CustomCard({ title, body }) {
     );
 }
 
+export function CustomCardFrameBottom({ title, children }) {
+    return (
+        <View style={[styles.cardContainerBottom, globalStyles.borders]}>
+            <Text style={styles.titleText}>{title}</Text>
+            <View style={styles.childBottomContainer}>{children}</View>
+        </View>
+    );
+}
+
 export function CustomCardFrame({ title, children }) {
     return (
         <View style={[styles.cardContainer, globalStyles.borders]}>
@@ -41,5 +50,17 @@ const styles = StyleSheet.create({
     },
     childContainer: {
         width: 300,
+    },
+    cardContainerBottom: {
+        paddingHorizontal: 20,
+        paddingTop: 20,
+        paddingBottom: 20,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        borderBottomWidth: 0,
+        width: 350,
+    },
+    childBottomContainer: {
+        alignItems: "center",
     },
 });

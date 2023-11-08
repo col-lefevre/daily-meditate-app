@@ -1,19 +1,25 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useContext, useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { Audio } from "expo-av";
 import { Slider } from "@react-native-assets/slider";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 import { LargeButton } from "../components/LargeButton";
 import { PromptContext } from "../components/PromptContext";
+import { CustomCardFrameBottom } from "../components/CustomCard";
 
 import { formatTimer } from "../modules/datesTimes";
-import { globalStyles, getPrimaryBlue } from "../modules/globalStyles";
+import {
+    globalStyles,
+    getPrimaryBlue,
+    getPrimaryGrey,
+} from "../modules/globalStyles";
 
 export default function TimerScreen({ navigation }) {
-    const { timer, setTimer } = useContext(PromptContext);
+    const { timer, prompt } = useContext(PromptContext);
 
+    let [localTimer, setLocalTimer] = useState(timer);
     let [sound, setSound] = useState();
     let [volume, setVolume] = useState(0.5); // Default volume
 
@@ -28,7 +34,10 @@ export default function TimerScreen({ navigation }) {
                 await sound.playAsync();
             }
         }
-        setupPlayMusic();
+        // Prevent music from playing when opening page with timer = 0
+        if (localTimer > 0) {
+            setupPlayMusic();
+        }
     }, []);
 
     // Unload sound on page unmount
@@ -38,20 +47,20 @@ export default function TimerScreen({ navigation }) {
 
     useEffect(() => {
         // Decrement timer every second;
-        if (timer > 0) {
+        if (localTimer > 0) {
             const interval = setInterval(() => {
-                setTimer(timer - 1);
+                setLocalTimer(localTimer - 1);
             }, 1000);
             return () => clearInterval(interval);
         }
         // Stop music when timer ends
-        else if (timer == 0 && sound) {
+        else if (localTimer == 0 && sound) {
             async function stopMusic() {
                 await sound.stopAsync();
             }
             stopMusic();
         }
-    }, [timer]);
+    }, [localTimer]);
 
     // Make sound volume match "volume" state
     useEffect(() => {
@@ -76,58 +85,81 @@ export default function TimerScreen({ navigation }) {
     };
 
     return (
-        <SafeAreaView
-            style={[globalStyles.container, { justifyContent: "flex-end" }]}
-        >
+        <SafeAreaView style={[globalStyles.container, styles.container]}>
             <LargeButton
-                title={timer > 0 ? formatTimer(timer) : "Done"}
-                subtitle={timer > 0 ? "Currently Meditating" : "Tap to Finish"}
+                title={localTimer > 0 ? formatTimer(localTimer) : "Done"}
+                subtitle={
+                    localTimer > 0 ? "Currently Meditating" : "Tap to Finish"
+                }
                 funcs={navToInputNotes}
-                disabledStatus={timer > 0}
+                disabledStatus={localTimer > 0}
             />
-            <View style={[styles.volumeControls, globalStyles.borders]}>
-                <Ionicons
-                    name={"volume-low"}
-                    size={30}
-                    color={getPrimaryBlue()}
-                />
-                <Slider
-                    style={styles.slider}
-                    value={0.5}
-                    minimumValue={0}
-                    maximumValue={1}
-                    step={0}
-                    minimumTrackTintColor={getPrimaryBlue()}
-                    maximumTrackTintColor="#D3D3D3"
-                    thumbTintColor={getPrimaryBlue()}
-                    trackHeight={7}
-                    thumbSize={20}
-                    onValueChange={(value) => setVolumeState(value)}
-                />
-                <Ionicons
-                    name={"volume-high"}
-                    size={30}
-                    color={getPrimaryBlue()}
-                />
-            </View>
+
+            {/* <View style={[styles.tab, globalStyles.borders]}>
+                
+            </View> */}
+            <CustomCardFrameBottom title={"Your Prompt"}>
+                <Text>{prompt}</Text>
+                <View style={styles.volumeControls}>
+                    <Ionicons
+                        name={"volume-low"}
+                        size={30}
+                        color={getPrimaryBlue()}
+                    />
+                    <Slider
+                        style={styles.slider}
+                        value={0.5}
+                        minimumValue={0}
+                        maximumValue={1}
+                        step={0}
+                        minimumTrackTintColor={getPrimaryBlue()}
+                        maximumTrackTintColor="#D3D3D3"
+                        thumbTintColor={getPrimaryBlue()}
+                        trackHeight={7}
+                        thumbSize={20}
+                        onValueChange={(value) => setVolumeState(value)}
+                    />
+                    <Ionicons
+                        name={"volume-high"}
+                        size={30}
+                        color={getPrimaryBlue()}
+                    />
+                </View>
+            </CustomCardFrameBottom>
         </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flexDirection: "column",
+        justifyContent: "flex-end",
+        gap: 180,
+    },
     slider: {
         width: 150,
         height: 60,
     },
     volumeControls: {
-        borderRadius: 50,
-        paddingVertical: 0,
+        paddingTop: 5,
         paddingHorizontal: 10,
         flexDirection: "row",
         gap: 20,
         flexGrow: 0,
         alignItems: "center",
-        marginTop: 250,
-        marginBottom: 50,
+    },
+    tab: {
+        paddingHorizontal: 20,
+        paddingTop: 20,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        borderBottomWidth: 0,
+        borderWidth: 3,
+        borderColor: getPrimaryGrey(),
+        borderStyle: "solid",
+        backgroundColor: "white",
+        width: 350,
+        justifyContent: "center",
+        alignItems: "center",
     },
 });

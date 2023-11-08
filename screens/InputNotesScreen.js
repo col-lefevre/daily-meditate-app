@@ -1,18 +1,20 @@
 import { SafeAreaView, StyleSheet, TextInput, Text, Modal } from "react-native";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import { SmallButton } from "../components/SmallButton";
 import { CustomCardFrame } from "../components/CustomCard";
+import { PromptContext } from "../components/PromptContext";
 
 import { addEntry } from "../modules/database";
 import { globalStyles } from "../modules/globalStyles";
 
 export default function InputNotesScreen({ navigation }) {
+    const { timer, prompt } = useContext(PromptContext);
     let [text, setText] = useState("");
 
     async function submitText() {
         let deviceTime = new Date();
-        await addEntry(text, deviceTime.toISOString()); // idk if need ISO but it works
+        await addEntry(text, deviceTime.toISOString(), timer, prompt); // idk if need ISO but it works
         navigation.navigate("Home");
     }
 

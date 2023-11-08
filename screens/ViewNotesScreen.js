@@ -11,9 +11,9 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 
 import { CustomCardFrame } from "../components/CustomCard";
 
-import { globalStyles, getPrimaryBlue } from "../modules/globalStyles";
+import { globalStyles } from "../modules/globalStyles";
 import { getEntries, deleteEntry } from "../modules/database";
-import { formatDate } from "../modules/datesTimes";
+import { formatDate, formatTimer } from "../modules/datesTimes";
 
 export default function ViewNotesScreen({ navigation }) {
     const [userData, setUserData] = useState([]);
@@ -35,65 +35,91 @@ export default function ViewNotesScreen({ navigation }) {
     }
 
     return (
-        <SafeAreaView style={globalStyles.container}>
-            <CustomCardFrame title={"Your Notes"}>
+        <SafeAreaView style={styles.container1}>
+            <View style={styles.container2}>
                 <FlatList
                     style={styles.flatList}
                     data={userData}
                     renderItem={({ item }) => (
-                        <View style={styles.listEntry}>
-                            <View style={styles.entryTitleContainer}>
-                                <Text style={styles.timeText}>
-                                    {formatDate(item.timestamp)}
-                                </Text>
-                                <TouchableOpacity
-                                    onPress={() => deleteBundler(item.id)}
-                                >
-                                    <Ionicons
-                                        name={"trash"}
-                                        size={20}
-                                        color={getPrimaryBlue()}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                            <Text style={styles.notesText}>{item.notes}</Text>
-                        </View>
+                        <FlatListEntry
+                            timestamp={item.timestamp}
+                            timer={item.timer}
+                            notes={item.notes}
+                            prompt={item.prompt}
+                            id={item.id}
+                            deleteFunc={deleteBundler}
+                        />
                     )}
                     keyExtractor={(item) => item.id.toString()}
                 />
-            </CustomCardFrame>
+            </View>
         </SafeAreaView>
     );
 }
 
+function FlatListEntry({ timestamp, timer, notes, prompt, id, deleteFunc }) {
+    return (
+        <View>
+            <View style={styles.detailsContainer}>
+                <View style={styles.detailContainer}>
+                    <Ionicons
+                        name={"calendar-outline"}
+                        size={20}
+                        color={"black"}
+                    />
+                    <Text style={styles.detailText}>
+                        {formatDate(timestamp)}
+                    </Text>
+                </View>
+                <View style={styles.detailContainer}>
+                    <Ionicons
+                        name={"hourglass-outline"}
+                        size={20}
+                        color={"black"}
+                    />
+                    <Text style={styles.detailText}>{formatTimer(timer)}</Text>
+                </View>
+            </View>
+            <Text style={styles.notesText}>Notes: {notes}</Text>
+            <View style={styles.detailContainer}>
+                <TouchableOpacity onPress={() => deleteFunc(id)}>
+                    <Ionicons
+                        name={"trash-outline"}
+                        size={20}
+                        color={"black"}
+                    />
+                </TouchableOpacity>
+                <Text style={styles.detailText}>Delete?</Text>
+            </View>
+        </View>
+    );
+}
+
 const styles = StyleSheet.create({
-    notesContainer: {
-        justifyContent: "center",
-        alignItems: "center",
+    container1: {
+        backgroundColor: "white",
         flex: 1,
+    },
+
+    container2: {
+        backgroundColor: "white",
+        paddingHorizontal: 20,
+        flex: 1,
+    },
+    detailText: {
+        fontSize: 15,
+    },
+    detailContainer: {
+        flexDirection: "row",
+        gap: 5,
+    },
+    detailsContainer: {
+        flexDirection: "row",
+        gap: 20,
     },
     notesText: {
         fontSize: 15,
         color: "black",
-    },
-    timeText: {
-        fontSize: 17.5,
-        color: getPrimaryBlue(),
-        letterSpacing: 1,
-        fontWeight: "normal",
-    },
-    deleteText: {
-        fontSize: 15,
-        color: "red",
-    },
-    flatList: {},
-    listEntry: {
-        marginBottom: 15,
-    },
-    entryTitleContainer: {
-        flexDirection: "row",
-        gap: 10,
-        alignItems: "center",
-        justifyContent: "flex-start",
+        paddingVertical: 10,
     },
 });
