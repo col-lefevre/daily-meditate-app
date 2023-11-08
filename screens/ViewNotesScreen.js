@@ -140,12 +140,13 @@ const styles = StyleSheet.create({
     },
     flatList: {
         flex: 1,
+        paddingTop: 20,
         paddingHorizontal: 20,
+        marginBottom: 20,
     },
     titleView: {
         paddingTop: 50,
         backgroundColor: "white",
-        marginBottom: 20,
         borderBottomWidth: 3,
         borderBottomColor: getPrimaryGrey(),
         flexDirection: "row",
