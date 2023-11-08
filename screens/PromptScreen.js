@@ -46,7 +46,7 @@ export default function PromptScreen({ navigation }) {
 function SelectBlocks({ data, text, state, setState }) {
     function changeInfo(forward, data, state, setState) {
         let newIndex = data.indexOf(state);
-        if (!forward) {
+        if (forward) {
             newIndex++;
         } else {
             newIndex--;
@@ -73,7 +73,7 @@ function SelectBlocks({ data, text, state, setState }) {
             </TouchableOpacity>
             <Text style={styles.promptNavText}>{text}</Text>
             <TouchableOpacity
-                onPress={() => changeInfo(false, data, state, setState)}
+                onPress={() => changeInfo(true, data, state, setState)}
             >
                 <Ionicons
                     name={"chevron-forward"}
